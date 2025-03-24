@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Turizmi në Shqipëri - Trashëgimi, Natyrë, Kulturë dhe Aventurë</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Reset i përgjithshëm */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      line-height: 1.6;
+      background: #fefefe;
+      color: #333;
+    }
+    a { text-decoration: none; color: inherit; }
+    
+    /* Header dhe Navigacion */
+    header {
+      background: linear-gradient(135deg, #C8102E, #000);
+      color: #fff;
+      padding: 20px 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+      overflow: hidden;
+    }
+    nav ul {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      flex-wrap: wrap;
+    }
+    nav ul li {
+      margin: 10px 15px;
+    }
+    nav ul li a {
+      color: #fff;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    nav ul li a:hover {
+      color: #FFD700;
+    }
+    
+    /* Seksioni Hero */
+    .hero {
+      margin-top: 80px;
+      background: url('https://source.unsplash.com/featured/1600x900?albania,landscape') no-repeat center center/cover;
+      height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.4);
+    }
+    .hero h1 {
+      position: relative;
+      color: #fff;
+      font-size: 3em;
+      text-align: center;
+      padding: 0 20px;
+    }
+    
+    /* Seksionet e faqes */
+    section {
+      padding: 60px 0;
+    }
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2.5em;
+      color: #C8102E;
+    }
+    .content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+    }
+    .content img {
+      width: 100%;
+      max-width: 500px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .text-content {
+      flex: 1;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .btn {
+      display: inline-block;
+      background: #C8102E;
+      color: #fff;
+      padding: 10px 20px;
+      margin-top: 20px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+    .btn:hover { background: #000; }
+    
+    /* Slider për Galeri */
+    .slider {
+      position: relative;
+      max-width: 1200px;
+      margin: auto;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .slides {
+      display: flex;
+      width: 300%;
+      transition: transform 0.5s ease-in-out;
+    }
+    .slide {
+      width: 100%;
+      flex-shrink: 0;
+    }
+    .slide img {
+      width: 100%;
+      display: block;
+    }
+    .slider-nav {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+    }
+    .slider-nav button {
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 1.2em;
+      transition: background 0.3s;
+    }
+    .slider-nav button:hover { background: #C8102E; }
+    
+    /* Accordion për informacion të thelluar */
+    .accordion {
+      background-color: #eee;
+      color: #444;
+      cursor: pointer;
+      padding: 18px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      transition: background 0.3s;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      font-size: 1.1em;
+    }
+    .accordion:hover { background-color: #ddd; }
+    .panel {
+      padding: 0 18px;
+      display: none;
+      background-color: white;
+      overflow: hidden;
+      border-radius: 0 0 5px 5px;
+      margin-bottom: 10px;
+    }
+    
+    /* Modal për Harta Interaktive */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background: rgba(0,0,0,0.7);
+    }
+    .modal-content {
+      background: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 600px;
+      position: relative;
+    }
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 30px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    /* Forma e kontaktit */
+    form label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    form input, form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    form button {
+      background: #C8102E;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    form button:hover { background: #000; }
+    
+    footer {
+      background: #000;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+    @media (max-width:768px) {
+      .content { flex-direction: column; }
+      .hero h1 { font-size: 2.5em; }
+    }
+    
+    /* Stil për seksionin "Qytetet e Bukura" */
+    .city-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .city-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      width: 300px;
+    }
+    .city-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .city-card .card-content {
+      padding: 15px;
+    }
+    .city-card iframe {
+      width: 100%;
+      height: 200px;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header dhe Navigacioni kryesor -->
+  <header>
+    <div class="container">
+      <nav>
+        <ul>
+          <li><a href="#hyrje">Hyrje</a></li>
+          <li><a href="#historia">Historia & Trashëgimia</a></li>
+          <li><a href="#atraksionet">Atraksionet Natyrore</a></li>
+          <li><a href="#destinacionet">Destinacionet & Udhëtimi</a></li>
+          <li><a href="#hotele">Hotele & Agriturizëm</a></li>
+          <li><a href="#parke">Parke & Rezervate</a></li>
+          <li><a href="#kullat">Kështjella & Arkitekturë</a></li>
+          <li><a href="#statistika">Statistika & Suksese</a></li>
+          <li><a href="#qytetet">Qytetet e Bukura</a></li>
+          <li><a href="#harta">Harta Interaktive</a></li>
+          <li><a href="#galeri">Galeri</a></li>
+          <li><a href="#detaje">Informacione Shtesë</a></li>
+          <li><a href="#kontakti">Kontakti</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Seksioni Hyrje -->
+  <section class="hero" id="hyrje">
+    <h1>Mirësevini në Turizmin e Shqipërisë</h1>
+  </section>
+
+  <!-- Seksioni Historia dhe Trashëgimia -->
+  <section id="historia">
+    <div class="container">
+      <h2 class="section-title">Historia dhe Trashëgimia Kulturore</h2>
+      <div class="content">
+        <div class="text-content">
+          <p>Turizmi në Shqipëri ka qenë shtylla kryesore e aktivitetit ekonomik që vazhdon të zhvillohet. Vendndodhja unike në Evropën Juglindore – e kufizuar nga Mal i Zi, Kosova, Maqedonia e Veriut dhe Greqia – tregon një histori të pasur që fillon që nga periudha klasike.</p>
+          <p>Ilirët, grekët e lashtë, romakët, bizantineve, venedikët dhe osmane kanë lënë gjurmë të pashlyeshme në trashëgiminë kulturore dhe arkitekturore, duke ndërtuar kështjella, amfiteatra dhe monumente që frymëzojnë breza të tërë.</p>
+        </div>
+        <img src="https://source.unsplash.com/featured/600x400?albania,history" alt="Trashëgimi arkëologjike në Shqipëri">
+      </div>
+    </div>
+  </section>
+
+  <!-- Seksioni Atraksionet Natyrore dhe Klimatike -->
+  <section id="atraksionet">
+    <div class="container">
+      <h2 class="section-title">Atraksionet Natyrore dhe Klimatike</h2>
+      <div class="content">
+        <img src="https://source.unsplash.com/featured/600x400?albania,beach" alt="Plazhe, male dhe natyrë">
+        <div class="text-content">
+          <p>Me një vijë bregdetare prej 481 km që përfshin plazhe me rërë, shkëmbinj, lagune dhe formacione natyrore, Shqipëria ofron një mozaik peizazhesh të ndryshme. Nga Alpet Shqiptare, Sharr, Skanderbeg, Korab dhe Pindus deri te malet Cerauniane – kontrastet mes maleve të ftohta dhe zonave bregdetare krijojnë një eksperiencë unike për çdo udhëtar.</p>
+          <p>Klima mesdhetare, së bashku me mikroklimat lokale, siguron që çdo rajon të ketë karakterin e vet – nga temperaturat pranë bregdetit deri tek dimrat në veri.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seksioni Destinacionet dhe Udhëtimi -->
+  <section id="destinacionet">
+    <div class="container">
+      <h2 class="section-title">Destinacionet dhe Udhëtimi</h2>
+      <div class="content">
+        <div class="text-content">
+          <p>Shqipëria ofron destinacione turistike të njohura ndërkombëtarisht:</p>
+          <ul>
+            <li><strong>Shkodër:</strong> me Kështjellën e Rozafës, liqenin më të madh në Evropën Juglindore dhe rrugët me legjenda.</li>
+            <li><strong>Tiranë:</strong> kryeqyteti modern, i njohur për arkitekturën unike, vendet kulturore dhe ambientin urban dinamik.</li>
+            <li><strong>Krujë:</strong> qytet mesjetar me "Ballkonin Adriatik" dhe rrugët e ngushta të mbushura me histori.</li>
+            <li><strong>Durrës:</strong> qytet i lashtë me amfiteatër të madhe dhe plazhe të gjera.</li>
+            <li><strong>Butrint & Apollonia:</strong> vende që shpalosin historinë e lashtë me mbetje arkëologjike të ruajtura.</li>
+            <li><strong>Alpet Shqiptare:</strong> destinacione si Valbona, Theth, Nikaj-Mërtur dhe liqeni i Komanit, shpesh krahasohen me fjordet skandinave.</li>
+          </ul>
+          <p>Rrugët turistike si SH8, A1, SH78, SH75 dhe Via Egnatia lejojnë eksplorimin e thellë të natyrës dhe historisë, duke ofruar pamje spektakolare.</p>
+        </div>
+        <img src="https://source.unsplash.com/featured/600x400?albania,road" alt="Rrugët dhe peizazhet shqiptare">
+      </div>
+    </div>
+  </section>
+
+  <!-- Seksioni Hotele dhe Agriturizëm -->
+  <section id="hotele">
+    <div class="container">
+      <h2 class="section-title">Hotele, Zinxhire Ndërkombëtarë & Agriturizëm</h2>
+      <div class="content">
+        <img src="https://source.unsplash.com/featured/600x400?albania,hotel" alt="Hotel moderne dhe agriturizëm">
+        <div class="text-content">
+          <p>Investimet në sektorin hotelier po rriten shpejt me zinxhirë ndërkombëtarë si Mariott, Hyatt, Maritim Plaza, Hilton Garden Inn, MK Hotels, Best Western dhe Melia Hotels International që transformojnë peizazhin urban dhe bregdetar të Shqipërisë.</p>
+          <p>Ndërkohë, agriturizmi – që bashkon traditat lokale, bujqësinë dhe mikpritjen autoktone – po zhvillohet me shpejtësi, duke mbështetur programin e 100+ fshatrave për diversifikim ekonomik dhe zhvillim të qëndrueshëm.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seksioni Parke Kombëtare dhe Rezervate Natyrore -->
+  <section id="parke">
+    <div class="container">
+      <h2 class="section-title">Parke Kombëtare dhe Rezervate Natyrore</h2>
+      <div class="content">
+        <div class="text-content">
+          <p>Alpet Shqiptare dhe zonat natyrore ofrojnë peizazhe mahnitëse me parqe si Parku Kombëtar i Luginës së Valbonës, Parku Kombëtar Theth dhe rezervate të paprekura si zona e Nikaj-Mërturit. Liqeni i Komanit shpesh përshkruhet si një udhëtim në stilin e fjordeve skandinave.</p>
+          <p>Këto vende mbulojnë male glaciere, rrjedha me ujë kristal, lugina dhe peizazhe që ruajnë biodiversitetin dhe kulturën natyrore të vendit.</p>
+        </div>
+        <img src="https://source.unsplash.com/featured/600x400?albania,mountains" alt="Peizazhe malore dhe natyrë e paprekur">
+      </div>
+    </div>
+  </section>
+
+  <!-- Seksioni Kështjella dhe Trashëgimi Arkitektural -->
+  <section id="kullat">
+    <div class="container">
+      <h2 class="section-title">Kështjella, Monumente & Trashëgimi Arkitektural</h2>
+      <div class="content">
+        <img src="https://source.unsplash.com/featured/600x400?albania,castle" alt="Kështjella historike shqiptare">
+        <div class="text-content">
+          <p>Trashëgimia arkitekturore shqiptare shtrihet në kështjella dhe monumente që rrëfejnë historinë e perandorive të ndryshme. Nga kështjella e Rozafës në Shkodër, te Petrelë pranë Tiranës, Prezë, Kështjella e Ali Pashës në Butrint dhe Rodoni – secila strukturë flet historinë e kohëve të kaluara.</p>
+          <p>Këto monumente janë dëshmi e ndikimeve ilire, greke, romake, bizantine, venedikë dhe osmane që kanë formësuar kulturën shqiptare deri në ditët e sotme.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seksioni Statistika dhe Suksese Ndërkombëtare -->
+  <section id="statistika">
+    <div class="container">
+      <h2 class="section-title">Statistika dhe Suksese Ndërkombëtare</h2>
+      <div class="text-content">
+        <p>Me 3.8 milion vizitorë, Shqipëria renditet si vendi 25 në Evropë. Lonely Planet e vendosi atë si destinacionin nr. 1 në vitin 2011, ndërsa The New York Times e vlerësoi si destinacionin 4 nga 52 për vizitë në vitin 2014.</p>
+        <p>Sloganët zyrtarë si <strong>"Go Your Own Way"</strong> dhe më parë <strong>"A New Mediterranean Love"</strong> reflektojnë energjinë dhe potencialin e vendit. Sipas Institutit të Statistikave, rreth 4.73 milion vizitorë të huaj kanë vizituar Shqipërinë në vitin 2016, ndërsa turizmi ndërkombëtar ka shënuar një rritje të shpejtë që nga viti 2019.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seksioni Qytetet e Bukura -->
+  <section id="qytetet">
+    <div class="container">
+      <h2 class="section-title">Qytetet e Bukura të Shqipërisë</h2>
+      <div class="city-cards">
+        <!-- Tirana -->
+        <div class="city-card">
+          <img src="https://source.unsplash.com/featured/300x200?tirana" alt="Tiranë">
+          <div class="card-content">
+            <h3>Tiranë</h3>
+            <p>Kryeqyteti modern i Shqipërisë, i njohur për ngjyrat e tij të gjalla, arkitekturën unike dhe atmosferën urbane dinamike.</p>
+            <iframe src="https://www.youtube.com/embed/Kz1UY3Z8VwI" allowfullscreen></iframe>
+          </div>
+        </div>
+        <!-- Shkodër -->
+        <div class="city-card">
+          <img src="https://source.unsplash.com/featured/300x200?shkoder" alt="Shkodër">
+          <div class="card-content">
+            <h3>Shkodër</h3>
+            <p>Qytet me histori të lashtë, i njohur për Kështjellën e Rozafës dhe liqenin më të madh në Evropën Juglindore.</p>
+            <iframe src="https://www.youtube.com/embed/NE7U4yGhsDI" allowfullscreen></iframe>
+          </div>
+        </div>
+        <!-- Berat -->
+        <div class="city-card">
+          <img src="https://source.unsplash.com/featured/300x200?berat" alt="Berat">
+          <div class="card-content">
+            <h3>Berat</h3>
+            <p>I njohur si qyteti i mijë dritareve, një shembull i shkëlqyer i trashëgimisë arkitekturore dhe kulturore.</p>
+            <iframe src="https://www.youtube.com/embed/o8xWuykjMkc" allowfullscreen></iframe>
+          </div>
+        </div>
+        <!-- Durrës -->
+        <div class="city-card">
+          <img src="https://source.unsplash.com/featured/300x200?durres" alt="Durrës">
+          <div class="card-content">
+            <h3>Durrës</h3>
+            <p>Qytet i lashtë me amfiteatër të madhe dhe plazhe të mrekullueshme, një pikë të rëndësishme turistike.</p>
+            <iframe src="https://www.youtube.com/embed/NPkT1oT3-rk" allowfullscreen></iframe>
+          </div>
+        </div>
+        <!-- Sarandë -->
+        <div class="city-card">
+          <img src="https://source.unsplash.com/featured/300x200?sarande" alt="Sarandë">
+          <div class="card-content">
+            <h3>Sarandë</h3>
+            <p>I njohur për plazhet e tij të kaltërta dhe klimën mesdhetare që tërheq turistët nga e gjithë bota.</p>
+            <iframe src="https://www.youtube.com/embed/7rkjB1G1Q3Y" allowfullscreen></iframe>
+          </div>
+        </div>
+        <!-- Vlora -->
+        <div class="city-card">
+          <img src="https://source.unsplash.com/featured/300x200?vlora" alt="Vlora">
+          <div class="card-content">
+            <h3>Vlora</h3>
+            <p>Një port me histori dhe plazhe të bukura, vend ku Deti Adriatik dhe Deti Jon bashkohen.</p>
+            <iframe src="https://www.youtube.com/embed/LTQ-0tdFx8Q" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seksioni Harta Interaktive -->
+  <section id="harta">
+    <div class="container">
+      <h2 class="section-title">Harta Interaktive e Shqipërisë</h2>
+      <p style="text-align: center; margin-bottom: 20px;">Kliko mbi qytetin për të parë më shumë informacion.</p>
+      <div style="text-align: center;">
+        <!-- Për këtë shembull, përdorim një imazh placeholder të hartës së Shqipërisë dhe krijojmë disa zona të klikueshme -->
+        <img src="https://source.unsplash.com/featured/800x600?albania,map" alt="Harta e Shqipërisë" usemap="#albaniaMap" style="max-width:100%; border-radius: 10px;">
+        <map name="albaniaMap">
+          <!-- Koordinatat janë afërsisht të përshtatura për shembullin. Klikoni për të parë modalin -->
+          <area shape="circle" coords="250,150,20" alt="Tiranë" href="#" onclick="showCity('Tirana');">
+          <area shape="circle" coords="180,100,20" alt="Shkodër" href="#" onclick="showCity('Shkodër');">
+          <area shape="circle" coords="300,200,20" alt="Durrës" href="#" onclick="showCity('Durrës');">
+          <area shape="circle" coords="320,350,20" alt="Berat" href="#" onclick="showCity('Berat');">
+          <area shape="circle" coords="400,500,20" alt="Gjirokastër" href="#" onclick="showCity('Gjirokastër');">
+          <area shape="circle" coords="450,550,20" alt="Sarandë" href="#" onclick="showCity('Sarandë');">
+          <area shape="circle" coords="220,300,20" alt="Krujë" href="#" onclick="showCity('Krujë');">
+          <area shape="circle" coords="500,400,20" alt="Vlora" href="#" onclick="showCity('Vlora');">
+        </map>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal për informacionin e qytetit nga harta -->
+  <div id="cityModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2 id="modalCityName"></h2>
+      <p id="modalCityInfo"></p>
+    </div>
+  </div>
+
+  <!-- Seksioni Galeri Interaktive -->
+  <section id="galeri">
+    <div class="container">
+      <h2 class="section-title">Galeri Interaktive</h2>
+      <div class="slider">
+        <div class="slides">
+          <div class="slide">
+            <img src="https://source.unsplash.com/featured/1200x600?albania,landscape" alt="Pamje nga Alpet Shqiptare">
+          </div>
+          <div class="slide">
+            <img src="https://source.unsplash.com/featured/1200x600?albania,beach" alt="Plazhe të bukura shqiptare">
+          </div>
+          <div class="slide">
+            <img src="https://source.unsplash.com/featured/1200x600?albania,culture" alt="Kulturë dhe tradita shqiptare">
+          </div>
+        </div>
+        <div class="slider-nav">
+          <button id="prev">&#10094;</button>
+          <button id="next">&#10095;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seksioni Informacione Shtesë me Accordion -->
+  <section id="detaje">
+    <div class="container">
+      <h2 class="section-title">Informacione të Detajuara</h2>
+      <button class="accordion">Atraksionet Natyrore & Klimatike</button>
+      <div class="panel">
+        <p>Shqipëria ofron një spektër të gjerë të klimave dhe peizazheve: nga zonat e ngrohta bregdetare me ndikim të fuqishëm të Detit Mesdhetar, deri te rajonet malore me temperatura të ftohta dhe borë. Çdo rajon ka mikroklimat e veta që krijojnë një eksperiencë unike për çdo vizitor.</p>
+      </div>
+      
+      <button class="accordion">Destinacionet Kulturore dhe Historike</button>
+      <div class="panel">
+        <p>Qytete si Shkodër, Tiranë, Krujë, Durrës, Berat dhe Gjirokastër mbajnë histori të lashta dhe tradita që kanë kaluar breza. Nga rrugët me gur deri te amfiteatrat dhe kishat antike, çdo vend rrëfen një histori të pasur kulturore dhe arkitekturore.</p>
+      </div>
+      
+      <button class="accordion">Rrugët Turistike dhe Aventurat</button>
+      <div class="panel">
+        <p>Rrugët si SH8, A1, SH78, SH75 dhe rrugët e trashëguara nga Via Egnatia ofrojnë një udhëtim spektakolar përmes maleve, fushave dhe bregdetit. Çdo kthesë flet për historinë e vendit dhe përvojën e aventurës së vërtetë.</p>
+      </div>
+      
+      <button class="accordion">Kuzhina Tradicionale dhe Festat Lokale</button>
+      <div class="panel">
+        <p>Shqipëria njihet për kuzhinën e saj tradicionale – me receta unike dhe produkte të freskëta, si dhe për festat që sjellin bashkë komunitetin dhe kulturën autentike shqiptare.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seksioni Kontakti -->
+  <section id="kontakti">
+    <div class="container">
+      <h2 class="section-title">Na Kontaktoni</h2>
+      <div class="content">
+        <div class="text-content">
+          <p>Jeni të interesuar të mësoni më shumë rreth turizmit në Shqipëri, ose keni pyetje? Plotësoni formularin më poshtë dhe ne do t'ju kontaktojmë sa më shpejt.</p>
+          <form id="contactForm">
+            <label for="emri">Emri:</label>
+            <input type="text" id="emri" name="emri" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="mesazhi">Mesazhi:</label>
+            <textarea id="mesazhi" name="mesazhi" rows="4" required></textarea>
+            <button type="submit">Dërgo</button>
+          </form>
+        </div>
+        <img src="https://source.unsplash.com/featured/600x400?albania,city" alt="Pamje qyteti shqiptar">
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Turizmi në Shqipëri. Të gjitha të drejtat e rezervuara.</p>
+  </footer>
+
+  <!-- Skriptet JavaScript për interaktivitet -->
+  <script>
+    // Slider për Galeri
+    let slideIndex = 0;
+    const slides = document.querySelector('.slides');
+    const totalSlides = document.querySelectorAll('.slide').length;
+    
+    document.getElementById('next').addEventListener('click', function() {
+      slideIndex = (slideIndex + 1) % totalSlides;
+      updateSlider();
+    });
+    document.getElementById('prev').addEventListener('click', function() {
+      slideIndex = (slideIndex - 1 + totalSlides) % totalSlides;
+      updateSlider();
+    });
+    function updateSlider() {
+      slides.style.transform = 'translateX(' + (-slideIndex * 100) + '%)';
+    }
+    
+    // Smooth scrolling për navigacion
+    document.querySelectorAll('nav a').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+    
+    // Accordion për seksionin e informacioneve të detajuara
+    const accordions = document.getElementsByClassName("accordion");
+    for (let i = 0; i < accordions.length; i++) {
+      accordions[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        const panel = this.nextElementSibling;
+        panel.style.display = (panel.style.display === "block") ? "none" : "block";
+      });
+    }
+    
+    // Trajtimi i formularit të kontaktit
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Faleminderit për mesazhin tuaj! Do të ju kontaktojmë së shpejti.');
+      this.reset();
+    });
+    
+    // Funksionet për modalin e hartës interaktive
+    const cityData = {
+      "Tirana": "Tiranë është kryeqyteti modern i Shqipërisë, me një histori të pasur dhe një pamje urbane dinamike. Këtu ndodhen institucione kulturore, muzeume dhe një skenë artistike e gjallë.",
+      "Shkodër": "Shkodër njihet për Kështjellën e Rozafës, liqenin e madh dhe historinë e saj të lashtë që rrëfen legjendat e rajonit.",
+      "Durrës": "Durrësi është një qytet i lashtë me një amfiteatër të madhe dhe plazhe të gjera, duke qenë një pikë të rëndësishme turistike buzë Adriatikut.",
+      "Berat": "Berati, qyteti i mijë dritareve, është një muze në hapësirë, me arkitekturë unike dhe histori që daton në kohërat e lashta.",
+      "Gjirokastër": "Gjirokastra është një qytet i ruajtur me mjeshtëri osmane dhe rrugë të ngushta që rrëfejnë historinë e pasur kulturore.",
+      "Sarandë": "Saranda është e njohur për plazhet e saj të kaltërta, klimën mesdhetare dhe peizazhet që tërheqin vizitorë nga e gjithë bota.",
+      "Krujë": "Kruja është qyteti historik ku ndodhet muzeu i Skënderbeut, duke treguar historinë e luftës për liri.",
+      "Vlora": "Vlora është porti historik i Shqipërisë ku Deti Adriatik dhe Deti Jon bashkohen, duke ofruar një eksperiencë të paharrueshme."
+    };
+    
+    function showCity(city) {
+      document.getElementById("modalCityName").innerText = city;
+      document.getElementById("modalCityInfo").innerText = cityData[city] || "Informacion i disponueshëm së shpejti.";
+      document.getElementById("cityModal").style.display = "block";
+    }
+    
+    function closeModal() {
+      document.getElementById("cityModal").style.display = "none";
+    }
+    
+    // Mbyll modalin kur klikon jashtë përmbajtjes
+    window.onclick = function(event) {
+      const modal = document.getElementById("cityModal");
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>
